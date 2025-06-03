@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+</head>
+<body>
+    <form class="col-6 mx-auto card p-3 shadow-lg mt-5" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Add Receipe</h2>
+  <div class="mb-3 ">
+    <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+    <input  class="form-control" required name="receipe_name" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Receipe description</label>
+    <textarea class="form-control" required name="receipe_description"  rows="3"></textarea>
+  </div>
+   <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Receipe Image</label>
+    <input type="file" name="receipe_image" class="form-control" id="exampleInputPassword1">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Receipe</th>
+      <th scope="col">description</th>
+      <th scope="col">Image</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for recepie in recepies %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{recepie.name}}</td>
+      <td>{{recepie.description}}</td>
+      <td><img src="/media/{{recepie.image}}" alt="" style="height: 40px "></td>
+      <!-- <td><a href="/delete/{{recepie.id}}" class="btn btn-danger">Delete</a></td> -->
+      <td><a href="{% url 'delete_recepie' recepie.id %}" class="btn btn-danger">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous" ></script>
+</body>
+</html>
