@@ -1,0 +1,42 @@
+{% extends "recepies.html" %}
+{% block start %}
+
+<form class="col-6 mx-auto card p-3 shadow-lg mt-5" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Register</h2>
+
+      
+  {# Display error message if present #}
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+  {% if success %}
+    <div class="alert alert-success">{{ success }}</div>
+  {% endif %}
+
+
+      <div class="mb-3 ">
+    <label for="exampleInputEmail1" class="form-label">First name</label>
+    <input type="text"  class="form-control" name="first_name" id="firstName" >
+  </div>
+  <div class="mb-3 ">
+    <label for="exampleInputEmail1" class="form-label">Last name</label>
+    <input type="text"  class="form-control" name="last_name"  id="lastNmae" >
+  </div>
+  <div class="mb-3 ">
+    <label for="exampleInputEmail1" class="form-label">Username</label>
+    <input type="text"  class="form-control" name="username" id="username" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Password</label>
+    <input type="password"  class="form-control" name="password" id="password" >
+  </div>
+  
+  <p>Already have account <a href="/login/">Login</a></p>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
+
+
