@@ -12,6 +12,9 @@ urlpatterns = [
     path('recepies/', recepies, name='recepies'),
     path('delete/<id>/', delete_recepie, name='delete_recepie'),
     path('update/<id>/', update_recepie, name='update_recepie'),
+    path('login/', login_page,name='login'),
+    path('register/', register,name='register'),
+    path('logout/', logout_page,name='logout_page'),
 ]
 
 # Serve media files during development

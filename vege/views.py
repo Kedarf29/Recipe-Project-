@@ -1,7 +1,11 @@
 from django.shortcuts import render,redirect
 from .models import Recepie
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required 
 
 # Create your views here.
+@login_required(login_url='/login/')
 def recepies(request):
  if request.method == 'POST':
     data = request.POST
@@ -64,3 +68,56 @@ def delete_recepie(request, id):
     queryset.delete()
 
     return redirect('recepies')
+
+def login_page(request):
+      if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not User.objects.filter(username=username).exists():
+         return render(request, 'login.html', {'error': 'Username does not exist.'})
+
+      
+        user = authenticate(username=username, password=password)
+
+        if user is None:
+          return render(request, 'login.html', {'error': 'Invalid credentials.'})
+        else:
+         login(request, user)
+         return redirect('/recepies/')
+
+      return render(request, 'login.html')
+
+def logout_page(request):
+        logout(request)
+        return redirect('/login/')
+
+    
+
+def register(request):
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not (first_name and last_name and username and password):
+            return render(request, 'register.html', {'error': 'All fields are required.'})
+
+        if User.objects.filter(username=username).exists():
+            return render(request, 'register.html', {'error': 'Username already exists.'})
+
+
+        user = User.objects.create_user(
+            username=username,
+            first_name=first_name,
+            last_name=last_name
+        )
+        user.set_password(password)
+        user.save()
+        return render(request, 'register.html', {'success': 'Username registered.'})
+
+        # return redirect('login')
+
+    return render(request, 'register.html')
